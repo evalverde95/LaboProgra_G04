@@ -24,9 +24,6 @@ struct avl_node {
 
   /** Número flotante asociado al nodo */
   float value;
-
-  /** Altura del nodo */
-  int height;
 };
 
 
@@ -81,7 +78,7 @@ int min3(
  * Calcula la altura de un nodo.
  * Retorna la altura del nodo.
  *
- * @param [in]  current_node  Referencia al nodo.
+ * @param [in]  current_node  Puntero al nodo.
  *
  * @returns height Altura del nodo.
  */
@@ -93,7 +90,7 @@ int get_height(
  * Calcula el factor de balance de un nodo h(LeftChild)-h(RightChild).
  * Retorna el factor de balance del nodo.
  *
- * @param [in]  current_node  Referencia al nodo.
+ * @param [in]  current_node  Puntero al nodo.
  *
  * @returns balance_factor Factor de balance.
  */
@@ -109,7 +106,8 @@ int get_balance(
  *
  * @returns node_ptr Puntero al nodo creado.
  */
-struct avl_node *new_node(
+int new_node(
+  struct avl_node **node_ptr,
   float value);
 
 
@@ -118,24 +116,24 @@ struct avl_node *new_node(
  * Realiza una rotación a la izquierda sobre el nodo dado.
  * Retorna el código de error.
  *
- * @param [in/out]  rot_top_node  Referencia al nodo root de la rotación.
+ * @param [in/out]  rot_top_node  Puntero doble al nodo root de la rotación.
  *
  * @returns error_code Código de error indicando el éxito o error de la función.
  */
 int left_rotation(
-  struct avl_node *rot_top_node);
+  struct avl_node **rot_top_node);
 
 /**
  * left_rotation
  * Realiza una rotación a la derecha sobre el nodo dado.
  * Retorna el código de error.
  *
- * @param [in/out]  rot_top_node  Referencia al nodo root de la rotación.
+ * @param [in/out]  rot_top_node  Puntero doble al nodo root de la rotación.
  *
  * @returns error_code Código de error indicando el éxito o error de la función.
  */
 int right_rotation(
-  struct avl_node *rot_top_node);
+  struct avl_node **rot_top_node);
 
 /**
  * random_list
@@ -151,15 +149,13 @@ float *random_list(
 );
 
 /**
- * free_mem
- * Libera la memoria asignada a los distintos elementos.
+ * free_tree_mem
+ * Libera la memoria asignada a cada nodo del arbol.
  *
- * @param [in] list_ptr   Puntero a la lista.
  * @param [in] root_node  Puntero a la raíz del árbol.
  *
  */
-void free_mem(
-  float *list_ptr,
+void free_tree_mem(
   struct avl_node *root_node);
 
 /**
@@ -176,7 +172,7 @@ void free_mem(
 int avl_create(
   float           *in_number_list,
   int              list_size,
-  struct avl_node *new_root_node);
+  struct avl_node **new_root_node);
 
 
 /**
@@ -192,7 +188,7 @@ int avl_create(
  */
 int avl_node_add(
   float num,
-  struct avl_node *new_root);
+  struct avl_node **new_root);
 
 
 /**
