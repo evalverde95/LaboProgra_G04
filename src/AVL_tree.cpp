@@ -193,7 +193,11 @@ int avl_node_add(
         // Ignore repeated element.
         return AVL_SUCCESS; 
     }
-        
+    // If invalid state, return immediately (skip balancing).
+    if (status!=0){
+        return status;
+    }
+       
     // Get balance factor.
     int balance = get_balance(*new_root); 
       
