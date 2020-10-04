@@ -237,8 +237,8 @@ int avl_search(
  *                        de la función
  */
 int avl_max_get(
-  struct avl_node  in_root,
-  struct avl_node *max_node);
+  struct avl_node  *in_root,
+  struct avl_node **max_node);
 
 
 /**
@@ -252,8 +252,8 @@ int avl_max_get(
  *                        de la función
  */
 int avl_min_get(
-  struct avl_node  in_root,
-  struct avl_node *min_node);
+  struct avl_node  *in_root,
+  struct avl_node **min_node);
 
 
 /**
