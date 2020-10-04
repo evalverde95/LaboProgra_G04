@@ -19,11 +19,59 @@ TEST(tree_creation, positive) {
     delete list;
 }
 
+// Insert positive testing. Nodes should be added and tree balanced every time.
+TEST(Insert, positive) {
+    int status = 0;
+    struct avl_node *root=nullptr;
+    float val = 0;
+    for(int i = 0; i <= 10; i++){
+      val = float(rand()%50);
+      status = avl_node_add(val, &root);
+      EXPECT_EQ(status, 0);
+    }
+    printf("AVL tree values: \n");
+    avl_print(root);
+    
+    //Free memory
+    free_tree_mem(root);
+}
+
+// Right rotation negative testing.Can only rotate right if left children exist
+TEST(Insert, rr_negative) {
+    int status = 0;
+    struct avl_node *root=nullptr;
+    avl_node_add(10, &root);
+    avl_node_add(20, &root);
+    status = right_rotation(&root);
+    EXPECT_EQ(status, AVL_INVALID_ROT);
+    printf("AVL tree values: \n");
+    avl_print(root);
+    
+    //Free memory
+    free_tree_mem(root);
+}
+
+// Left rotation negative testing.Can only rotate left if right children exist
+TEST(Insert, lr_negative) {
+    int status = 0;
+    struct avl_node *root=nullptr;
+    avl_node_add(20, &root);
+    avl_node_add(10, &root);
+    status = left_rotation(&root);
+    EXPECT_EQ(status, AVL_INVALID_ROT);
+    printf("AVL tree values: \n");
+    avl_print(root);
+    
+    //Free memory
+    free_tree_mem(root);
+}
+
+
 
 // Positive test for getting min value of element, status should be AVL_SUCCESS
 TEST(Min_test, positive) {
     int status = 0;
-    int list_size=40;
+    int list_size=10;
     float *list=random_list(list_size);
     struct avl_node *root=nullptr;
     struct avl_node *min_node;
@@ -33,7 +81,9 @@ TEST(Min_test, positive) {
 
 
 
-    status = avl_min_get(root->rc_node, &min_node);
+    status = avl_min_get(root, &min_node);
+    printf("AVL tree values: \n");
+    avl_print(root);
     printf("MIN: %f \n", min_node->value);
     EXPECT_EQ(status, AVL_SUCCESS);
 
@@ -53,6 +103,8 @@ TEST(Min_test, negative) {
     avl_create(list,list_size,&root);
 
     status = avl_min_get(root, &min_node);
+    printf("AVL tree values: \n");
+    avl_print(root);
     printf("MIN: %f \n", min_node->value);
     EXPECT_EQ(status, AVL_OUT_OF_RANGE);
 
@@ -72,7 +124,9 @@ TEST(Max_test, positive) {
     avl_create(list,list_size,&root);
 
     status = avl_max_get(root, &max_node);
-    printf("MIN: %f \n", max_node->value);
+    printf("AVL tree values: \n");
+    avl_print(root);
+    printf("Max: %f \n", max_node->value);
     EXPECT_EQ(status, AVL_SUCCESS);
 
     //Free memory
@@ -91,7 +145,9 @@ TEST(Max_test, negative) {
     avl_create(list,list_size,&root);
 
     status = avl_max_get(root, &max_node);
-    printf("MIN: %f \n", max_node->value);
+    printf("AVL tree values: \n");
+    avl_print(root);
+    printf("Max: %f \n", max_node->value);
     EXPECT_EQ(status, AVL_OUT_OF_RANGE);
 
     //Free memory
