@@ -23,14 +23,17 @@ TEST(tree_creation, positive) {
 // Positive test for getting min value of element, status should be AVL_SUCCESS
 TEST(Min_test, positive) {
     int status = 0;
-    int list_size=15;
+    int list_size=40;
     float *list=random_list(list_size);
     struct avl_node *root=nullptr;
     struct avl_node *min_node;
+    
 
     avl_create(list,list_size,&root);
 
-    status = avl_min_get(root, &min_node);
+
+
+    status = avl_min_get(root->rc_node, &min_node);
     printf("MIN: %f \n", min_node->value);
     EXPECT_EQ(status, AVL_SUCCESS);
 
@@ -77,7 +80,7 @@ TEST(Max_test, positive) {
     delete list;
 }
 
-// Negative test for getting max value of element, status should be AVL_OUT_OF_RANGE
+// Negative test for getting max value of empty tree, status should be AVL_OUT_OF_RANGE
 TEST(Max_test, negative) {
     int status = 0;
     int list_size=0;
