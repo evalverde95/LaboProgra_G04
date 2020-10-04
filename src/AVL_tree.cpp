@@ -2,8 +2,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
- 
-#define MAX_RAND_VALUE 100
+
+#define MAX_RAND_VALUE 100000
 using namespace std;
 
 
@@ -32,7 +32,7 @@ int min3(
 
 int get_height(
   struct avl_node *current_node){
-      
+
     // Ending condition, when the node is inexistent.
     if (current_node==nullptr){
         return 0;
@@ -41,7 +41,7 @@ int get_height(
     // Get left and right side heights.
     int left_height=get_height(current_node->lc_node);
     int right_height=get_height(current_node->rc_node);
-    
+
     // Return max plus current node.
     return max(left_height,right_height)+1;
 }
@@ -69,7 +69,7 @@ int new_node(
     // Initially no children, use value given.
     (*node_ptr)->lc_node=nullptr;
     (*node_ptr)->rc_node=nullptr;
-    (*node_ptr)->value=value;
+    (*node_ptr)->value = value;
 
     // Return success state.
     return AVL_SUCCESS;
@@ -78,7 +78,7 @@ int new_node(
 
 int left_rotation(
   struct avl_node **rot_top_node){
-    
+
     // Left rotations require right children.
     if ((*rot_top_node)->rc_node==nullptr){
       return AVL_INVALID_ROT;
@@ -94,7 +94,7 @@ int left_rotation(
     }
     else{
       lc_of_rc=rc->lc_node;
-    }    
+    }
 
     // Perform rotation.
     rc->lc_node=(*rot_top_node);
@@ -127,7 +127,7 @@ int right_rotation(
     else{
       rc_of_lc=lc->rc_node;
     }
-    
+
     // Perform rotation.
     lc->rc_node=(*rot_top_node);
     (*rot_top_node)->lc_node=rc_of_lc;
@@ -145,7 +145,7 @@ int avl_create(
   float           *in_number_list,
   int              list_size,
   struct avl_node **new_root_node){
-    
+
     // Initialize status as success.
     int status=AVL_SUCCESS;
 
@@ -154,11 +154,11 @@ int avl_create(
 
       // Add current list element to tree.
       status=avl_node_add(in_number_list[index],new_root_node);
-      
+
       // If unsuccessful return with the current status.
       if (status!=AVL_SUCCESS){
         return status;
-      }      
+      }
     }
 
     // If all elements added with success, return success.
@@ -173,69 +173,69 @@ int avl_node_add(
     int status = AVL_SUCCESS;
     int status_1 = AVL_SUCCESS;
     int status_2 = AVL_SUCCESS;
-    
+
     // If nullptr then create the new node.
-    if (*new_root == nullptr){  
-        status= new_node(new_root,num); 
+    if (*new_root == nullptr){
+        status= new_node(new_root,num);
         return status;
-    } 
+    }
 
     // Num smaller than current node.
-    if (num < (*new_root)->value){        
-        status=avl_node_add(num,&((*new_root)->lc_node));         
+    if (num < (*new_root)->value){
+        status=avl_node_add(num,&((*new_root)->lc_node));
     }
 
     // Num greater than current node.
-    else if (num > (*new_root)->value){        
-        status=avl_node_add(num,&((*new_root)->rc_node));      
+    else if (num > (*new_root)->value){
+        status=avl_node_add(num,&((*new_root)->rc_node));
     }
     else {
         // Ignore repeated element.
-        return AVL_SUCCESS; 
+        return AVL_SUCCESS;
     }
     // If invalid state, return immediately (skip balancing).
     if (status!=0){
         return status;
     }
-       
+
     // Get balance factor.
-    int balance = get_balance(*new_root); 
-      
+    int balance = get_balance(*new_root);
+
     // Left Left Case.
     if (balance > 1 && num < (*new_root)->lc_node->value){
-        status_1=right_rotation(new_root); 
-        return min(status,status_1);        
-    } 
-  
-    // Right Right Case.
-    if (balance < -1 && num > (*new_root)->rc_node->value){
-        status_1 = left_rotation(new_root); 
+        status_1=right_rotation(new_root);
         return min(status,status_1);
     }
-  
+
+    // Right Right Case.
+    if (balance < -1 && num > (*new_root)->rc_node->value){
+        status_1 = left_rotation(new_root);
+        return min(status,status_1);
+    }
+
     // Left Right Case.
-    if (balance > 1 && num > (*new_root)->lc_node->value){ 
-        status_1=left_rotation(&((*new_root)->lc_node)); 
-        status_2=right_rotation(new_root); 
+    if (balance > 1 && num > (*new_root)->lc_node->value){
+        status_1=left_rotation(&((*new_root)->lc_node));
+        status_2=right_rotation(new_root);
         return min3(status,status_1,status_2);
-    } 
-  
+    }
+
     // Right Left Case.
-    if (balance < -1 && num < (*new_root)->rc_node->value){ 
-        status_1=right_rotation(&((*new_root)->rc_node)); 
-        status_2=left_rotation(new_root); 
+    if (balance < -1 && num < (*new_root)->rc_node->value){
+        status_1=right_rotation(&((*new_root)->rc_node));
+        status_2=left_rotation(new_root);
         return min3(status,status_1,status_2);
-    } 
-  
+    }
+
     // Return status.
-    return status; 
+    return status;
 
 }
 
 
 float *random_list(
   int list_size){
-  
+
   // Allocate memory for the list.
   float* list=new float[list_size];
 
@@ -253,7 +253,7 @@ float *random_list(
     // Add random number to list.
     list[index]=random_value;
   }
-  
+
   // Return list pointer.
   return list;
 
@@ -263,7 +263,7 @@ void free_tree_mem(
   struct avl_node *root_node){
     if (root_node!=nullptr){
         free_tree_mem(root_node->lc_node);
-        free_tree_mem(root_node->rc_node);        
+        free_tree_mem(root_node->rc_node);
         delete root_node;
     }
 
@@ -272,16 +272,15 @@ void free_tree_mem(
 
 int avl_print(
   struct avl_node  *in_root){
-    
+
     //   Pre order traversal.
     if (in_root!=nullptr){
         cout<<in_root->value<<endl;
         avl_print(in_root->lc_node);
-        avl_print(in_root->rc_node);        
+        avl_print(in_root->rc_node);
     }
-    
+
     // Return success.
     return AVL_SUCCESS;
 
 }
-
