@@ -196,7 +196,7 @@ int avl_node_add(
  * Toma un nodo arbitrario, lo busca y lo elimina de la estructura de datos.
  * Da error si el nodo no pertenece al árbol.
  *
- * @param [in]  num            es el nodo raíz original del árbol
+ * @param [in]  num            Número por eleminar
  * @param [out] new_root       es el puntero al nuevo nodo raíz del árbol
  *
  * @returns error_code         un código de error indicando el éxito o error
@@ -204,7 +204,7 @@ int avl_node_add(
  */
 int avl_node_remove(
   float num,
-  struct avl_node *new_root);
+  struct avl_node **new_root);
 
 
 /**
@@ -252,8 +252,8 @@ int avl_max_get(
  *                        de la función
  */
 int avl_min_get(
-  struct avl_node  in_root,
-  struct avl_node *min_node);
+  struct avl_node *in_root,
+  struct avl_node **min_node);
 
 
 /**

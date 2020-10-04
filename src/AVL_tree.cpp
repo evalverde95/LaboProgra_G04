@@ -228,6 +228,103 @@ int avl_node_add(
 
 }
 
+int avl_node_remove(
+  float num,
+  struct avl_node **new_root
+){
+    int status = AVL_SUCCESS;
+    int status_1 = AVL_SUCCESS;
+    int status_2 = AVL_SUCCESS;
+
+    //if nullptr then avl is empty or doesnt exist.
+    if (*new_root == nullptr){
+      return AVL_OUT_OF_RANGE;
+    }
+
+
+    // Num smaller than current node.
+    if (num < (*new_root)->value){      
+        status=avl_node_remove(num,&((*new_root)->lc_node));
+    }
+
+    // Num greater than current node.
+    else if (num > (*new_root)->value){  
+        status=avl_node_remove(num,&((*new_root)->rc_node));
+    }
+
+    //Element to be delete found.
+    else {
+        //Delete actions for a node with one child or none
+        if ((*new_root)->rc_node == nullptr ||
+            (*new_root)->lc_node == nullptr){
+
+          struct avl_node *temp=(*new_root)->rc_node? 
+                                  (*new_root)->rc_node:
+                                  (*new_root)->lc_node;
+          //the node has none children.
+          if (temp==nullptr){
+            *new_root=nullptr;
+          }
+          
+          else {
+            //Then the only child will remplace the node.
+            (*new_root)->lc_node=temp->lc_node;
+            (*new_root)->rc_node=temp->rc_node;
+            (*new_root)->value=temp->value;
+          }
+
+          delete temp;
+        }
+        else {
+          //Else, the node has left and right children.
+          struct avl_node *temp=nullptr;
+          status=avl_min_get((*new_root)->rc_node,&temp);
+          //Move the right min value to the new_root and delete that leaf.
+          (*new_root)->value=temp->value;
+          avl_node_remove(temp->value,&((*new_root)->rc_node));
+
+          delete temp;
+        }
+    }
+    
+    //Tree with only one node
+    if (*new_root == nullptr){
+      return AVL_SUCCESS;
+    }
+
+    // Get balance factor.
+    int balance=get_balance(*new_root); 
+      
+    // Left Left Case.
+    if (balance > 1 && get_balance((*new_root)->lc_node)>=0){
+        status_1=right_rotation(new_root); 
+        return min(status,status_1);        
+    }
+
+    // Right Right Case.
+    if (balance < -1 && get_balance((*new_root)->rc_node)<=0){
+        status_1=left_rotation(new_root);
+        return min(status,status_1);
+    } 
+   
+  
+    // Left Right Case.
+    if (balance > 1 && get_balance((*new_root)->lc_node)<0){
+        status_1=left_rotation(&((*new_root)->lc_node));
+        status_2=right_rotation(new_root);
+        return min3(status,status_1,status_2);
+    }
+  
+    // Right Left Case.
+    if (balance < -1 && get_balance((*new_root)->rc_node)>0){ 
+        status_1=right_rotation(&((*new_root)->rc_node)); 
+        status_2=left_rotation(new_root); 
+        return min3(status,status_1,status_2);
+    }
+    //Return status
+    return status;
+}
+
 
 float *random_list(
   int list_size){
@@ -264,7 +361,6 @@ void free_tree_mem(
     }
 
 }
-
 
 int avl_print(
   struct avl_node  *in_root){
