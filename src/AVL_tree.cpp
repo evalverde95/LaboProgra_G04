@@ -193,7 +193,11 @@ int avl_node_add(
         // Ignore repeated element.
         return AVL_SUCCESS; 
     }
-        
+    // If invalid state, return immediately (skip balancing).
+    if (status!=0){
+        return status;
+    }
+       
     // Get balance factor.
     int balance = get_balance(*new_root); 
       
@@ -280,4 +284,55 @@ int avl_print(
     return AVL_SUCCESS;
 
 }
+
+
+
+int avl_max_get(struct avl_node *in_root, struct avl_node **max_node){
+
+  if(in_root == nullptr){
+    (*max_node)->value = -1;
+    return AVL_OUT_OF_RANGE;
+  }
+
+  if(in_root != nullptr){
+    (*max_node) = in_root;
+    avl_max_get(in_root->rc_node, (max_node));
+  }
+  // printf("Values: %f \n", (in_root)->value);
+  if(in_root->value > (*max_node)->value)
+  {
+    (*max_node) = in_root;
+    return AVL_OUT_OF_RANGE;
+  } 
+  else return AVL_SUCCESS;
+  
+
+
+}
+
+
+int avl_min_get(struct avl_node *in_root, struct avl_node **min_node){
+
+  if(in_root == nullptr){
+    (*min_node)->value = 100;
+    return AVL_OUT_OF_RANGE;
+  }
+
+  if(in_root != nullptr){
+    (*min_node) = in_root;
+    avl_min_get(in_root->lc_node, (min_node));
+  }
+
+  // printf("Values: %f \n", (in_root)->value);
+
+  if(in_root->value < (*min_node)->value)
+  {
+    (*min_node) = in_root;
+    return AVL_OUT_OF_RANGE;
+  }
+  else return AVL_SUCCESS;
+   
+}
+
+
 
