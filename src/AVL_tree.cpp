@@ -295,7 +295,6 @@ int avl_max_get(struct avl_node *in_root, struct avl_node **max_node){
 
   if(in_root != nullptr){
     (*max_node) = in_root;
-    printf("Values: %f \n", (in_root)->value);
     avl_max_get(in_root->rc_node, (max_node));
   }
   if((*max_node) == nullptr) return AVL_OUT_OF_RANGE;
@@ -314,7 +313,6 @@ int avl_min_get(struct avl_node *in_root, struct avl_node **min_node){
 
   if(in_root != nullptr){
     (*min_node) = in_root;
-    printf("Values: %f \n", (in_root)->value);
     avl_min_get(in_root->lc_node, (min_node));   
   }
 
