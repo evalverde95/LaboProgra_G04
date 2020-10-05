@@ -403,7 +403,7 @@ int avl_max_get(struct avl_node *in_root, struct avl_node **max_node){
 
 
 int avl_min_get(struct avl_node *in_root, struct avl_node **min_node){
-()
+
   if(in_root == nullptr){
     return AVL_OUT_OF_RANGE;
   }

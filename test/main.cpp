@@ -25,15 +25,16 @@ TEST(Time_complex, Positive){
     int status = 0;
     int min_order = 100;
     int max_order = 100000;
+    int test_quantity = 10;
 
-    //Se crea el archivo de resultados
+    // Create the test result file
     std::ofstream resultados;
     resultados.open ("time.csv");
-    resultados << "Esos son los resultados de la prueba de complejidad temporal\n";
-    resultados << "Prueba;Nth add;Time[us]\n";
+    resultados << "These are the time complexity test results\n";
+    resultados << "Test N.;Nth add;Time[us]\n";
     resultados.close();
 
-    for (size_t index = 0; index < 10; index++) {
+    for (int index = 0; index < test_quantity; index++) {
       // Obtaining the strcture size
       int list_size = rand() / max_order + min_order;
 
@@ -52,10 +53,10 @@ TEST(Time_complex, Positive){
       auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
       int Nth = list_size+1;
 
-      std::ofstream outfile;
-      outfile.open("time.csv", std::ios_base::app);
-      outfile << index << ";" << Nth << ";" << duration.count() << endl;
-      std::cout << "Check time.txt for the time complexity results" << '\n';
+      std::ofstream results;
+      result.open("time.csv", std::ios_base::app);
+      results << index << ";" << Nth << ";" << duration.count() << endl;
+      std::cout << "Time test saved" << index << "out of" << test_quantity << '\n';
 
       //Free memory
       free_tree_mem(root);
@@ -73,7 +74,7 @@ TEST(Min_test, positive) {
     float *list=random_list(list_size);
     struct avl_node *root=nullptr;
     struct avl_node *min_node;
-    
+
 
     avl_create(list,list_size,&root);
 
