@@ -161,7 +161,8 @@ TEST(Node_remove_test, positive){
   delete list;
 }
 
-TEST(Node_remove_test, negative){
+// Testing for a value grater than any in the tree
+TEST(Node_remove_test_grater, negative){
   int status = 0;
   int list_size=10;
   float *list=random_list(list_size);
@@ -181,6 +182,37 @@ TEST(Node_remove_test, negative){
   //Free memory
   free_tree_mem(root);
   delete list;
+}
+
+// Testing for a value lesser than any in the tree
+TEST(Node_remove_test_lesser, negative){
+  int status = 0;
+  int list_size=10;
+  float *list=random_list(list_size);
+  struct avl_node *root=nullptr;
+  avl_create(list,list_size,&root);
+
+  float inexistent_num = -1;
+
+  status = avl_node_remove(inexistent_num, &root);
+
+  EXPECT_EQ(status, -2);
+  //Free memory
+  free_tree_mem(root);
+  delete list;
+}
+
+// Testing a invalid tree
+TEST(Node_remove_test_invalid, negative){
+  int status = 0;
+  struct avl_node *root=nullptr;
+  float inexistent_num = -1;
+
+  status = avl_node_remove(inexistent_num, &root);
+
+  EXPECT_EQ(status, -4);
+  //Free memory
+  free_tree_mem(root);
 }
 
 int main(int argc, char **argv) {
