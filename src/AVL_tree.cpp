@@ -242,17 +242,23 @@ int avl_node_remove(
 
     //if nullptr then avl is empty or doesnt exist.
     if (*new_root == nullptr){
-      return AVL_OUT_OF_RANGE;
+      return AVL_NOT_FOUND;
     }
 
 
     // Num smaller than current node.
     if (num < (*new_root)->value){
+        if((*new_root)->lc_node==nullptr){
+          return AVL_OUT_OF_RANGE;
+        }
         status=avl_node_remove(num,&((*new_root)->lc_node));
     }
 
     // Num greater than current node.
     else if (num > (*new_root)->value){
+        if((*new_root)->rc_node==nullptr){
+          return AVL_OUT_OF_RANGE;
+        }
         status=avl_node_remove(num,&((*new_root)->rc_node));
     }
 
@@ -276,7 +282,6 @@ int avl_node_remove(
             (*new_root)->rc_node=temp->rc_node;
             (*new_root)->value=temp->value;
           }
-
           delete temp;
         }
         else {
@@ -410,7 +415,7 @@ int avl_min_get(struct avl_node *in_root, struct avl_node **min_node){
 
   if(in_root != nullptr){
     (*min_node) = in_root;
-    printf("Values: %f \n", (in_root)->value);
+    //printf("Values: %f \n", (in_root)->value);
     avl_min_get(in_root->lc_node, (min_node));
   }
 
