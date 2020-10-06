@@ -54,9 +54,9 @@ TEST(Time_complex, Positive){
       int Nth = list_size+1;
 
       std::ofstream results;
-      result.open("time.csv", std::ios_base::app);
+      results.open("time.csv", std::ios_base::app);
       results << index << ";" << Nth << ";" << duration.count() << endl;
-      std::cout << "Time test saved" << index << "out of" << test_quantity << '\n';
+      std::cout << "Time test: " << Nth << ", " << duration.count() <<  "\t...saved (" << index << " out of " << test_quantity << ")" << '\n';
 
       //Free memory
       free_tree_mem(root);
@@ -146,7 +146,42 @@ TEST(Max_test, negative) {
     delete list;
 }
 
+TEST(Node_remove_test, positive){
+  int status = 0;
+  int list_size=10;
+  float *list=random_list(list_size);
+  struct avl_node *root=nullptr;
+  avl_create(list,list_size,&root);
 
+  status = avl_node_remove(list[0], &root);
+
+  EXPECT_EQ(status, 0);
+  //Free memory
+  free_tree_mem(root);
+  delete list;
+}
+
+TEST(Node_remove_test, negative){
+  int status = 0;
+  int list_size=10;
+  float *list=random_list(list_size);
+  struct avl_node *root=nullptr;
+  avl_create(list,list_size,&root);
+
+  float inexistent_num = -1;
+  for (int index = 0; index < list_size; index++) {
+    float value = list[index];
+    inexistent_num = ( inexistent_num > value ) ? inexistent_num : value;
+  }
+  inexistent_num += 1;
+
+  status = avl_node_remove(inexistent_num, &root);
+
+  EXPECT_EQ(status, -2);
+  //Free memory
+  free_tree_mem(root);
+  delete list;
+}
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
