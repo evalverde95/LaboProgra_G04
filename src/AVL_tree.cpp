@@ -365,6 +365,8 @@ float *random_list(
 
 void free_tree_mem(
   struct avl_node *root_node){
+    // Post order traversal guarantees bottom up memory disallocation
+    // to prevent memory leaks.
     if (root_node!=nullptr){
         free_tree_mem(root_node->lc_node);
         free_tree_mem(root_node->rc_node);        
