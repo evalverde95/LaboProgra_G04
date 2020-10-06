@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lc_5fnode',['lc_node',['../structavl__node.html#a191d49c9d8926cc0a0566e002a11e2ac',1,'avl_node']]]
+  ['proyecto_201_3a_20avl_20tree',['Proyecto 1: AVL Tree',['../index.html',1,'']]]
 ];

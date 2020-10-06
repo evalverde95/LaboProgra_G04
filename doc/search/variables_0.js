@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['height',['height',['../structavl__node.html#a5a0d6df234fb8763dd11ad313b0bfd46',1,'avl_node']]]
+  ['lc_5fnode',['lc_node',['../structavl__node.html#a191d49c9d8926cc0a0566e002a11e2ac',1,'avl_node']]]
 ];
