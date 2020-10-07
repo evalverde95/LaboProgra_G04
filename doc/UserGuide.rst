@@ -126,6 +126,62 @@ En este caso hay otra función que llama a esta llamada *avl_print* que es la qu
 
     free_tree_mem(root); //Free memory assigned to nodes
 
+3.4. Maximum Element
+~~~~~~~~~~
+Para encontrar el elemento máximo o nodo con mayor valor en un bst, se debe recorrer completamente por todos los hijos derechos que existan, hasta llegar al último, el cual será el elemento máximo.
+
+El prototipo para la función es:
+
+.. code-block:: c++
+
+    int avl_max_get(
+        struct avl_node  *in_root,
+        struct avl_node **max_node);
+
+En el caso del elemento máximo, se debe inicializar un nodo vacío, y se pueden agregar valores con la función de Insert o Create, o incluso dejar el nodo vacío, para el cual se dará un mensaje de error. Luego, se utiliza la función *avl_max_get* para obtener el elemento máximo.
+
+.. code-block:: c++
+    
+    int status=AVL_SUCCESS; // Initialize status
+    int list_size=3; // Define list size
+    float list[3]={1,2,3}; // Create list
+
+    struct avl_node *root=nullptr; // Initially empty root
+    struct avl_node *max_node; // Create node to store maximum node value 
+
+    avl_create(list,list_size,&root); // Create tree
+    status = avl_max_get(root, &max_node) // Get maximum element
+
+    free_tree_mem(root); //Free memory assigned to nodes
+
+3.5. Minimum Element
+~~~~~~~~~~
+Para encontrar el elemento mínimo o nodo con menor valor en un bst, se debe recorrer completamente por todos los hijos izquierdos que existan, hasta llegar al último, el cual será el elemento mínimo.
+
+El prototipo para la función es:
+
+.. code-block:: c++
+
+    int avl_min_get(
+        struct avl_node  *in_root,
+        struct avl_node **min_node);
+
+En el caso del elemento mínimo, se debe inicializar un nodo vacío, y se pueden agregar valores con la función de Insert o Create, o incluso dejar el nodo vacío, para el cual se dará un mensaje de error. Luego, se utiliza la función *avl_min_get* para obtener el elemento mínimo.
+
+.. code-block:: c++
+    
+    int status=AVL_SUCCESS; // Initialize status
+    int list_size=3; // Define list size
+    float list[3]={1,2,3}; // Create list
+
+    struct avl_node *root=nullptr; // Initially empty root
+    struct avl_node *min_node; // Create node to store minimum node value 
+
+    avl_create(list,list_size,&root); // Create tree
+    status = avl_min_get(root, &min_node) // Get minimum element
+
+    free_tree_mem(root); //Free memory assigned to nodes
+
 
 4. Pruebas
 ----------
