@@ -2,9 +2,10 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+
  
-#define MAX_RAND_VALUE 100
 using namespace std;
+
 
 
 int max(
@@ -148,6 +149,12 @@ int avl_create(
     
     // Initialize status as success.
     int status=AVL_SUCCESS;
+
+    // Identify invalid list sizes and return.
+    if (list_size<1){
+      return AVL_INVALID_PARAM;
+    }
+    
 
     // Iterate over all the list elements.
     for (int index = 0; index < list_size; index++){
@@ -358,6 +365,8 @@ float *random_list(
 
 void free_tree_mem(
   struct avl_node *root_node){
+    // Post order traversal guarantees bottom up memory disallocation
+    // to prevent memory leaks.
     if (root_node!=nullptr){
         free_tree_mem(root_node->lc_node);
         free_tree_mem(root_node->rc_node);        
@@ -368,12 +377,29 @@ void free_tree_mem(
 
 int avl_print(
   struct avl_node  *in_root){
+
+  // Print type of traversal.
+  cout<<"Pre-order traversal: ";
+
+  // Call node printing
+  int status=avl_print_nodes(in_root);
+
+  // Add end of line to the printed values.
+  cout<<endl;
+
+  // Return the status given by node printing.
+  return status;
+
+}
+
+int avl_print_nodes(
+  struct avl_node  *in_root){
     
-    //   Pre order traversal.
+    // Pre order traversal printing.
     if (in_root!=nullptr){
-        cout<<in_root->value<<endl;
-        avl_print(in_root->lc_node);
-        avl_print(in_root->rc_node);        
+        cout<<in_root->value<<" ";
+        avl_print_nodes(in_root->lc_node);
+        avl_print_nodes(in_root->rc_node);        
     }
     
     // Return success.
