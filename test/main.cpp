@@ -2,6 +2,8 @@
 #include "gtest/gtest.h"
 #include <chrono>
 #include <fstream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -50,49 +52,50 @@ TEST(Create_test, negative) {
 }
 
 TEST(Time_complex, Positive){
-    int status = 0;
-    int min_order = 100;
-    int max_order = 100000;
-    int test_quantity = 3;
+  int status = 0;
+  float min_order = 100;
+  float max_order = 100000;
+  int test_quantity = 100;
 
-    // Create the test result file
-    std::ofstream resultados;
-    resultados.open ("time.csv");
-    resultados << "These are the time complexity test results\n";
-    resultados << "Test N.;Nth add;Time[us]\n";
-    resultados.close();
+  srand (static_cast <unsigned> (time(nullptr)));
 
-    for (int index = 0; index < test_quantity; index++) {
-      // Obtaining the strcture size
-      int list_size = rand() / max_order + min_order;
+  // Create the test result file
+  std::ofstream resultados;
+  resultados.open ("time.csv");
+  resultados << "These are the time complexity test results\n";
+  resultados << "Test N.;Nth add;Time[ns]\n";
+  resultados.close();
 
-      // Creating the test structure
-      float *list=random_list(list_size);
-      struct avl_node *root=nullptr;
-      status=avl_create(list,list_size,&root);
+  for (int index = 0; index < test_quantity; index++) {
+    // Obtaining the strcture size
+    int list_size = min_order + (int)(max_order*rand()/(RAND_MAX+min_order));
 
-      // Adding the N-th node and measuring execution time
-      float new_node_value =static_cast <float> (rand()%max_order);
-      auto start = std::chrono::steady_clock::now();
-      avl_node_add(new_node_value, &root);
-      auto stop = std::chrono::steady_clock::now();
+    // Creating the test structure
+    float *list=random_list(list_size);
+    struct avl_node *root=nullptr;
+    status=avl_create(list,list_size,&root);
 
-      // Saving test results (N and time)
-      auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-      int Nth = list_size+1;
+    // Adding the N-th node and measuring execution time
+    float new_node_value =static_cast <float>(rand());
+    auto start = std::chrono::steady_clock::now();
+    avl_node_add(new_node_value, &root);
+    auto stop = std::chrono::steady_clock::now();
 
-      std::ofstream results;
-      results.open("time.csv", std::ios_base::app);
-      results << index << ";" << Nth << ";" << duration.count() << endl;
-      std::cout << "Time test: " << Nth << ", " << duration.count() <<  "\t...saved (" << index << " out of " << test_quantity << ")" << '\n';
+    // Saving test results (N and time)
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+    int Nth = list_size+1;
 
-      //Free memory
-      free_tree_mem(root);
-      delete list;
+    std::ofstream results;
+    results.open("time.csv", std::ios_base::app);
+    results << index << ";" << Nth << ";" << duration.count() << endl;
+    std::cout << "Time test: " << Nth << ", " << duration.count() <<  "\t...saved (" << index << " out of " << test_quantity << ")" << '\n';
+
+    //Free memory
+    free_tree_mem(root);
+    delete list;
     }
     EXPECT_EQ(status, 0);
-
-}
+  }
 
 
 // Positive test for getting min value of element, status should be AVL_SUCCESS
