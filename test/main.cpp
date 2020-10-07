@@ -25,7 +25,7 @@ TEST(Time_complex, Positive){
     int status = 0;
     int min_order = 100;
     int max_order = 100000;
-    int test_quantity = 10;
+    int test_quantity = 3;
 
     // Create the test result file
     std::ofstream resultados;
@@ -215,8 +215,85 @@ TEST(Node_remove_test_invalid, negative){
   free_tree_mem(root);
 }
 
+// Testing search funtion
+TEST(Node_search, Positive){
+  int status = 0;
+
+  int list_size=5;
+  float *list=random_list(list_size);
+  struct avl_node *root=nullptr;
+  avl_create(list,list_size,&root);
+
+  struct avl_node *found_node = nullptr;
+  float number_to_search = list[list_size-1];
+  status = avl_search(number_to_search, &root, &found_node);
+
+  EXPECT_EQ(status, AVL_SUCCESS);
+  //Free memory
+  free_tree_mem(root);
+  delete list;
+}
+
+// Testing searching a inexisten greater number
+TEST(Node_search_grater, Negative){
+  int status = 0;
+
+  int list_size=5;
+  float *list=random_list(list_size);
+  struct avl_node *root=nullptr;
+  avl_create(list,list_size,&root);
+
+  float inexistent_num = -1;
+  for (int index = 0; index < list_size; index++) {
+    float value = list[index];
+    inexistent_num = ( inexistent_num > value ) ? inexistent_num : value;
+  }
+  inexistent_num += 1;
+
+  struct avl_node *found_node = nullptr;
+  status = avl_search(inexistent_num, &root, &found_node);
+
+  EXPECT_EQ(status, AVL_OUT_OF_RANGE);
+  //Free memory
+  free_tree_mem(root);
+  delete list;
+}
+
+// Testing searching a inexisten lesser number
+TEST(Node_search_lesser, Negative){
+  int status = 0;
+
+  int list_size=5;
+  float *list=random_list(list_size);
+  struct avl_node *root=nullptr;
+  avl_create(list,list_size,&root);
+
+  float inexistent_num = -1;
+  struct avl_node *found_node = nullptr;
+  status = avl_search(inexistent_num, &root, &found_node);
+
+  EXPECT_EQ(status, AVL_OUT_OF_RANGE);
+  //Free memory
+  free_tree_mem(root);
+  delete list;
+}
+
+// Testing searching an invalid tree
+TEST(Node_search_invalid, Negative){
+  int status = 0;
+
+  struct avl_node *root=nullptr;
+
+  float number_to_search = 0;
+  struct avl_node *found_node = nullptr;
+  status = avl_search(number_to_search, &root, &found_node);
+
+  EXPECT_EQ(status, AVL_NOT_FOUND);
+  //Free memory
+  free_tree_mem(root);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
-
 }

@@ -334,6 +334,38 @@ int avl_node_remove(
     return status;
 }
 
+int avl_search(float num, struct avl_node **root, struct avl_node **found_node){
+  int status = AVL_SUCCESS;
+  std::cout << "que es root? " <<*root << '\n';
+
+  //if nullptr then avl is empty or doesnt exist.
+  if (*root == nullptr){
+    return AVL_NOT_FOUND;
+  }
+
+  // Num smaller than current node.
+  if (num < (*root)->value){
+      if((*root)->lc_node==nullptr){
+        return AVL_OUT_OF_RANGE;
+      }
+      status=avl_search(num,&((*root)->lc_node), found_node);
+  }
+
+  // Num greater than current node.
+  else if (num > (*root)->value){
+      if((*root)->rc_node==nullptr){
+        return AVL_OUT_OF_RANGE;
+      }
+      status=avl_search(num,&((*root)->rc_node), found_node);
+  }
+
+  //Element to be delete found.
+  else {
+    *found_node = *root;
+  }
+
+  return status;
+}
 
 float *random_list(
   int list_size){
