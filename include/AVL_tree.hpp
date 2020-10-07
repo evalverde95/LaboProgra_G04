@@ -39,7 +39,7 @@ struct avl_node {
  * @param [in]  height_2 Altura del nodo desde segunda perpectiva (derecho/izquierdo).
  *
  * @returns max_height   Máxima altura entre ambas perspectivas.
- *                             
+ *
  */
 int max(
   int height_1,
@@ -170,7 +170,7 @@ void free_tree_mem(
  * @param [out] new_root_node  Puntero al nodo raíz del árbol creado.
  *
  * @returns error_code Código de error indicando el éxito o error de la función.
- *                             
+ *
  */
 int avl_create(
   float           *in_number_list,
@@ -216,17 +216,17 @@ int avl_node_remove(
  * Si existieran varios nodos con el mismo valor, se devuelve cualquiera.
  * Da error si el valor no existe en ningún nodo.
  *
- * @param [in]  in_root        es el nodo raíz original del árbol
  * @param [in]  num            es el número flotante por buscar
+ * @param [in]  root           puntero del nodo raíz  del árbol
  * @param [out] found_node     es el nodo encontrado que contiene el valor
  *
  * @returns error_code         un código de error indicando el éxito o error
  *                             de la función
  */
 int avl_search(
-  struct avl_node  in_root,
-  float                      num,
-  struct avl_node *found_node);
+  float num,
+  struct avl_node  **root,
+  struct avl_node **found_node);
 
 
 /**
