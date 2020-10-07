@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rc_5fnode',['rc_node',['../structavl__node.html#acf3957172227b132cd8a8b269d1291b6',1,'avl_node']]]
+  ['value',['value',['../structavl__node.html#a44c0392ed187c32624bc8d3377ec9235',1,'avl_node']]]
 ];

@@ -1,5 +1,8 @@
 #ifndef AVL_TREE_H
 #define AVL_TREE_H
+
+#define MAX_RAND_VALUE 100
+
 /**
  * Códigos de error
  */
@@ -257,6 +260,19 @@ int avl_min_get(
 
 
 /**
+ * avl_print_nodes
+ * Se imprimen los nodos del árbol en terminal.
+ *
+ * @param [in]  in_root   es el nodo raíz original del árbol
+ *
+ * @returns error_code    un código de error indicando el éxito o error
+ *                        de la función
+ */
+int avl_print_nodes(
+  struct avl_node  *in_root);
+
+
+/**
  * avl_print
  * Se imprime el árbol en terminal.
  *
@@ -267,6 +283,7 @@ int avl_min_get(
  */
 int avl_print(
   struct avl_node  *in_root);
+
 
 
 #endif /* AVL_TREE_H */
