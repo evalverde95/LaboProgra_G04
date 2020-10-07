@@ -100,7 +100,37 @@ Para insertar un número, solo se debe tener una raíz y un número que se desee
 
     free_tree_mem(root); //Free memory assigned to node
 
-3.3. Print
+
+3.3. Delete
+~~~~~~~~~~~
+La función de delete busca el número ingresado por el usuario y dependiendo de las ramas del nodo tomará una decisión para eliminarlo y reconectar el árbol.
+
+El prototipo para la función es el siguiente.
+
+.. code-block:: c++
+    
+    int avl_node_remove(
+        float num,
+        struct avl_node **new_root);
+
+Para eliminar un número, es necesario un puntero a la raíz y el número que se desee eliminar, como en el siguiente ejemplo.
+
+.. code-block:: c++
+
+    int status=AVL_SUCCESS; // Initialize status
+    int list_size=3; // Define list size
+    float list[3]={1,2,3}; // Create list
+
+    struct avl_node *root=nullptr; // Initially empty root
+
+    status=avl_create(list,list_size,&root); // Create tree
+    status=avl_node_remove(2.0,&root); // Delete element
+
+    free_tree_mem(root); //Free memory assigned to node
+
+
+
+3.5. Print
 ~~~~~~~~~~
 Para realizar una impresión que permita al usuario contrastar resultados contra resultados esperados, se debe hacer uso de un recorrido que brinde información de la forma del árbol, es decir un *pre-order* o un *post-order*, esto pues si los datos se imprimen en orden no ayudan a identificar la forma del arbol. En este caso particular se seleccionó el *pre-order traversal*.
 
@@ -140,8 +170,17 @@ En síntesis se tienen los siguientes casos:
 * **Positiva:** Se prueba la creación del árbol con un tamaño de lista correcto, debe devolver AVL_SUCCESS.
 * **Negativa:** Se prueba la creación del árbol con un tamaño de lista 0, debe devolver AVL_INVALID_PARAM.
 
+4.2. Delete
+~~~~~~~~~~~
+Para la eliminación de un número, el algorimto requiere que un árbol previamente creado y tener el número almacenado en él.
 
-4.2. Print
+En síntesis se tienen los siguientes casos:
+
+* **Positiva:** Se prueba la eliminación de un nodo almacenado en un árbol válido, debe devolver AVL_SUCCESS.
+* **Negativa:** Se prueba la eliminación de un nodo no almancenado en el árbol, debe devolver AVL_OUT_OF_RANGE.
+* **Negativa:** Se prueba la eliminación de un nodo en un árbol vacío, debe devolver AVL_NOT_FOUND.
+
+4.3. Print
 ~~~~~~~~~~
 Para la comprobación de la correcta impresión de la información, se redirige el *stdout* hacia un buffer y este string se compara con un string de referencia para comprobar así la correcta impresión del árbol.
 En esta prueba en particular solo existe una prueba positiva debido a que no hay manera de imprimir incorrectamente el árbol dada una raíz válida, de igual manera el único parámetro que es la raíz (una dirección de memoria) no se puede comprobar como una dirección inválida para el árbol.

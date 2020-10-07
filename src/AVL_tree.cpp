@@ -271,7 +271,7 @@ int avl_node_remove(
 
     //Element to be delete found.
     else {
-        //Delete actions for a node with one child or none
+        //Delete actions for a node with one child or none.
         if ((*new_root)->rc_node == nullptr ||
             (*new_root)->lc_node == nullptr){
 
@@ -303,7 +303,7 @@ int avl_node_remove(
         }
     }
     
-    //Tree with only one node
+    //Tree with only one node.
     if (*new_root == nullptr){
       return AVL_SUCCESS;
     }
@@ -337,7 +337,7 @@ int avl_node_remove(
         status_2=left_rotation(new_root); 
         return min3(status,status_1,status_2);
     }
-    //Return status
+    //Return status.
     return status;
 }
 
