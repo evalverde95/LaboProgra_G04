@@ -226,7 +226,17 @@ En síntesis se tienen los siguientes casos:
 * **Positiva:** Se prueba la creación del árbol con un tamaño de lista correcto, debe devolver AVL_SUCCESS.
 * **Negativa:** Se prueba la creación del árbol con un tamaño de lista 0, debe devolver AVL_INVALID_PARAM.
 
-4.2. Delete
+4.2. Insert
+~~~~~~~~~~~
+Para la inserción de un elemento al árbol, se cuenta con solo pruebas positivas de manera directa, y con pruebas negativas de manera indirecta. Esto debido a que el algoritmo de inserción completo nunca va a generar errores, sin embargo, en las rotaciones de balanceo, si puede fallar.
+
+En síntesis se tienen los siguientes casos:
+
+* **Positiva:** Se prueba la inserción de varios elementos a partir de un nodo raíz vacío, debe devolver AVL_SUCCESS.
+* **Rotación izquierda negativa:** Se prueba una rotación hacia la izquierda de una raíz con solamente un hijo izquierdo, debe devolver AVL_INVALID_ROT.
+* **Rotación derecha negativa:** Se prueba una rotación hacia la derecha de una raíz con solamente un hijo derecho, debe devolver AVL_INVALID_ROT.
+
+4.3. Delete
 ~~~~~~~~~~~
 Para la eliminación de un número, el algorimto requiere que un árbol previamente creado y tener el número almacenado en él.
 
@@ -236,7 +246,7 @@ En síntesis se tienen los siguientes casos:
 * **Negativa:** Se prueba la eliminación de un nodo no almancenado en el árbol, debe devolver AVL_OUT_OF_RANGE.
 * **Negativa:** Se prueba la eliminación de un nodo en un árbol vacío, debe devolver AVL_NOT_FOUND.
 
-4.3. Print
+4.4. Print
 ~~~~~~~~~~
 Para la comprobación de la correcta impresión de la información, se redirige el *stdout* hacia un buffer y este string se compara con un string de referencia para comprobar así la correcta impresión del árbol.
 En esta prueba en particular solo existe una prueba positiva debido a que no hay manera de imprimir incorrectamente el árbol dada una raíz válida, de igual manera el único parámetro que es la raíz (una dirección de memoria) no se puede comprobar como una dirección inválida para el árbol.
@@ -244,3 +254,21 @@ En esta prueba en particular solo existe una prueba positiva debido a que no hay
 De esta manera el test tiene un único caso:
 
 * **Positiva:** Se prueba que la impresión redirigida al buffer sea la misma que la esperada para una lista ya conocida.
+
+4.5. Minimum Element
+~~~~~~~~~~~
+Para la obtención del elemento mínimo del árbol, se cuenta con una prueba positiva, para cuando se haya un valor, y una prueba negativa cuando el árbol analizado está vacío.
+
+En síntesis se tienen los siguientes casos:
+
+* **Positiva:** Se prueba la obtención de un nodo mínimo en un árbol con N cantidad de valores, debe devolver AVL_SUCCESS.
+* **Negativa:** Se prueba la obtención de un nodo mínimo en un árbol vacío, debe devolver AVL_OUT_OF_RANGE.
+
+4.6. Minimum Element
+~~~~~~~~~~~
+Para la obtención del elemento máximo del árbol, se cuenta con una prueba positiva, para cuando se haya un valor, y una prueba negativa cuando el árbol analizado está vacío.
+
+En síntesis se tienen los siguientes casos:
+
+* **Positiva:** Se prueba la obtención de un nodo máximo en un árbol con N cantidad de valores, debe devolver AVL_SUCCESS.
+* **Negativa:** Se prueba la obtención de un nodo máximo en un árbol vacío, debe devolver AVL_OUT_OF_RANGE.
