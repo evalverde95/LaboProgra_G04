@@ -177,16 +177,22 @@ TEST(Max_test, negative) {
     delete list;
 }
 
+// Test removing a node from a tree
 TEST(Node_remove_test, positive){
   int status = 0;
+
+  // Creating the tree
   int list_size=10;
   float *list=random_list(list_size);
   struct avl_node *root=nullptr;
   avl_create(list,list_size,&root);
 
+  // Removing the node that contains the first value of the random list
   status = avl_node_remove(list[0], &root);
 
-  EXPECT_EQ(status, 0);
+  // Status should be AVL_SUCCESS
+  EXPECT_EQ(status, AVL_SUCCESS);
+
   //Free memory
   free_tree_mem(root);
   delete list;
@@ -195,11 +201,14 @@ TEST(Node_remove_test, positive){
 // Testing for a value grater than any in the tree
 TEST(Node_remove_test_grater, negative){
   int status = 0;
+
+  // Creating the tree from a random list
   int list_size=10;
   float *list=random_list(list_size);
   struct avl_node *root=nullptr;
   avl_create(list,list_size,&root);
 
+  // Getting the max value and adding 1 to it.
   float inexistent_num = -1;
   for (int index = 0; index < list_size; index++) {
     float value = list[index];
@@ -207,41 +216,55 @@ TEST(Node_remove_test_grater, negative){
   }
   inexistent_num += 1;
 
+  // Try removing the inexistent grater value
   status = avl_node_remove(inexistent_num, &root);
 
-  EXPECT_EQ(status, -2);
+  // Status should be AVL_OUT_OF_RANGE
+  EXPECT_EQ(status, AVL_OUT_OF_RANGE);
+
   //Free memory
   free_tree_mem(root);
   delete list;
 }
 
-// Testing for a value lesser than any in the tree
+// Test removing a value lesser than any in the tree
 TEST(Node_remove_test_lesser, negative){
   int status = 0;
+
+  // Creating the tree
   int list_size=10;
   float *list=random_list(list_size);
   struct avl_node *root=nullptr;
   avl_create(list,list_size,&root);
 
+  // Geting an inexistent smaller number to remove
   float inexistent_num = -1;
 
+  // Test removing an inxistent lesser value
   status = avl_node_remove(inexistent_num, &root);
 
-  EXPECT_EQ(status, -2);
+  // Comparing status, should be AVL_OUT_OF_RANGE
+  EXPECT_EQ(status, AVL_OUT_OF_RANGE);
+
   //Free memory
   free_tree_mem(root);
   delete list;
 }
 
-// Testing a invalid tree
+// Testing removing a node from a empty tree
 TEST(Node_remove_test_invalid, negative){
   int status = 0;
-  struct avl_node *root=nullptr;
-  float inexistent_num = -1;
 
+  // Creating an emty tree
+  struct avl_node *root=nullptr;
+
+  // Test removing any numbre since the tree is empty
+  float inexistent_num = -1;
   status = avl_node_remove(inexistent_num, &root);
 
-  EXPECT_EQ(status, -4);
+  // Status should be AVL_NOT_FOUND
+  EXPECT_EQ(status, AVL_NOT_FOUND);
+
   //Free memory
   free_tree_mem(root);
 }
@@ -250,16 +273,24 @@ TEST(Node_remove_test_invalid, negative){
 TEST(Node_search, Positive){
   int status = 0;
 
+  //Creating the tree
   int list_size=5;
   float *list=random_list(list_size);
   struct avl_node *root=nullptr;
   avl_create(list,list_size,&root);
 
+  // Creating a varible to store the found node direction
   struct avl_node *found_node = nullptr;
+
+  // Creating a value to search
   float number_to_search = list[list_size-1];
+
+  // Test searching for the value
   status = avl_search(number_to_search, &root, &found_node);
 
+  // Comparing status, should be AVL_SUCCESS
   EXPECT_EQ(status, AVL_SUCCESS);
+
   //Free memory
   free_tree_mem(root);
   delete list;
@@ -269,11 +300,13 @@ TEST(Node_search, Positive){
 TEST(Node_search_grater, Negative){
   int status = 0;
 
+  // Creating the tree
   int list_size=5;
   float *list=random_list(list_size);
   struct avl_node *root=nullptr;
   avl_create(list,list_size,&root);
 
+  // Getting the largest value in the tree and adding 1
   float inexistent_num = -1;
   for (int index = 0; index < list_size; index++) {
     float value = list[index];
@@ -281,48 +314,70 @@ TEST(Node_search_grater, Negative){
   }
   inexistent_num += 1;
 
+  // Creating a varible to store the found node direction
   struct avl_node *found_node = nullptr;
+
+  // Test searching for the value
   status = avl_search(inexistent_num, &root, &found_node);
 
+  // Should be AVL_OUT_OF_RANGE
   EXPECT_EQ(status, AVL_OUT_OF_RANGE);
+
   //Free memory
   free_tree_mem(root);
   delete list;
 }
 
-// Testing searching a inexisten lesser number
+// Test searching for a value lesser than any in the tree
 TEST(Node_search_lesser, Negative){
   int status = 0;
 
+  // Creating tree
   int list_size=5;
   float *list=random_list(list_size);
   struct avl_node *root=nullptr;
   avl_create(list,list_size,&root);
 
+  // Creating a smaller inexistent number
   float inexistent_num = -1;
+
+  // Creating a varible to store the found node direction
   struct avl_node *found_node = nullptr;
+
+  // Serching the inexisten value in the tree
   status = avl_search(inexistent_num, &root, &found_node);
 
+  // Comparing status, should be AVL_OUT_OF_RANGE
   EXPECT_EQ(status, AVL_OUT_OF_RANGE);
+
   //Free memory
   free_tree_mem(root);
   delete list;
 }
 
-// Testing searching an invalid tree
+// Testing searching an empty tree
 TEST(Node_search_invalid, Negative){
   int status = 0;
 
+  // Creating emty tree
   struct avl_node *root=nullptr;
 
+  // Creating any number to search since the tree is emty
   float number_to_search = 0;
+
+  // Creating a varible to store the found node direction
   struct avl_node *found_node = nullptr;
+
+  // Searchin the emty tree
   status = avl_search(number_to_search, &root, &found_node);
 
+  // Comparing status, should be AVL_INVALID_ROT
   EXPECT_EQ(status, AVL_NOT_FOUND);
+
   //Free memory
   free_tree_mem(root);
 }
+
 TEST(Print,positive) {
 
     // Initialize status to success.
