@@ -17,7 +17,6 @@ TEST(Create_test, positive) {
     // Create list and initialize root to null.
     float *list=random_list(list_size);
     struct avl_node *root=nullptr;
-
     // Call creation with valid list size.
     status=avl_create(list,list_size,&root);
 
@@ -46,10 +45,65 @@ TEST(Create_test, negative) {
     // Check status against invalid param.
     EXPECT_EQ(status,AVL_INVALID_PARAM);
 
+    //Insert 10 random numbers to AVL tree
+    for(int i = 0; i <= 10; i++){
+      val = float(rand()%50);
+      status = avl_node_add(val, &root);
+
+      //Compare each insert status
+      EXPECT_EQ(status, AVL_SUCCESS);
+    }
+
+    // Print AVL tree values
+    printf("AVL tree values: \n");
+    avl_print(root);
+    
     //Free memory
     free_tree_mem(root);
-    delete list;
 }
+
+// Right rotation negative testing.Can only rotate right if left children exist
+TEST(Insert, rr_negative) {
+    int status = AVL_SUCCESS;
+    struct avl_node *root=nullptr;
+
+    // Insert two values for only root and right children.
+    avl_node_add(10, &root);
+    avl_node_add(20, &root);
+
+    // Try right rotation, should be invalid
+    status = right_rotation(&root);
+    EXPECT_EQ(status, AVL_INVALID_ROT);
+
+    // Print AVL tree
+    printf("AVL tree values: \n");
+    avl_print(root);
+    
+    //Free memory
+    free_tree_mem(root);
+}
+
+// Left rotation negative testing.Can only rotate left if right children exist
+TEST(Insert, lr_negative) {
+    int status = AVL_SUCCESS;
+    struct avl_node *root=nullptr;
+
+    // Insert two values for only root and left children.
+    avl_node_add(20, &root);
+    avl_node_add(10, &root);
+
+    // Try left rotation, should be invalid
+    status = left_rotation(&root);
+    EXPECT_EQ(status, AVL_INVALID_ROT);
+
+    // Print AVL tree
+    printf("AVL tree values: \n");
+    avl_print(root);
+    
+    //Free memory
+    free_tree_mem(root);
+}
+
 
 TEST(Time_complex, Positive){
   int status = 0;
@@ -101,18 +155,25 @@ TEST(Time_complex, Positive){
 // Positive test for getting min value of element, status should be AVL_SUCCESS
 TEST(Min_test, positive) {
     int status = AVL_SUCCESS;
-    int list_size=40;
+    int list_size=20;
+
     float *list=random_list(list_size);
     struct avl_node *root=nullptr;
     struct avl_node *min_node;
-
-
+    
+    // Create AVL tree with 20 random numbers
     avl_create(list,list_size,&root);
 
 
+    // Get minimum node
+    status = avl_min_get(root, &min_node);
 
-    status = avl_min_get(root->rc_node, &min_node);
+    // Print values and min value
+    printf("AVL tree values: \n");
+    avl_print(root);
     printf("MIN: %f \n", min_node->value);
+
+    // Check correct test, should be succesful
     EXPECT_EQ(status, AVL_SUCCESS);
 
     //Free memory
@@ -128,10 +189,18 @@ TEST(Min_test, negative) {
     struct avl_node *root=nullptr;
     struct avl_node *min_node;
 
+    // Create AVL tree with 0 random numbers, it's empty
     avl_create(list,list_size,&root);
 
+    // Get minimum node
     status = avl_min_get(root, &min_node);
+
+    // Print values and min value
+    printf("AVL tree values: \n");
+    avl_print(root);
     printf("MIN: %f \n", min_node->value);
+
+    // Check correct test, should be negative testing
     EXPECT_EQ(status, AVL_OUT_OF_RANGE);
 
     //Free memory
@@ -147,10 +216,18 @@ TEST(Max_test, positive) {
     struct avl_node *root=nullptr;
     struct avl_node *max_node;
 
+    // Create AVL tree with 15 random numbers
     avl_create(list,list_size,&root);
 
+    // Get max element of tree
     status = avl_max_get(root, &max_node);
-    printf("MIN: %f \n", max_node->value);
+
+    // Print AVL tree and min value
+    printf("AVL tree values: \n");
+    avl_print(root);
+    printf("Max: %f \n", max_node->value);
+
+    // Status should be succesful
     EXPECT_EQ(status, AVL_SUCCESS);
 
     //Free memory
@@ -166,10 +243,18 @@ TEST(Max_test, negative) {
     struct avl_node *root=nullptr;
     struct avl_node *max_node;
 
+    // Create empty node
     avl_create(list,list_size,&root);
 
+    // Get max element of empty node
     status = avl_max_get(root, &max_node);
-    printf("MIN: %f \n", max_node->value);
+
+    // Print tree and max element
+    printf("AVL tree values: \n");
+    avl_print(root);
+    printf("Max: %f \n", max_node->value);
+
+    // Status should be out of range
     EXPECT_EQ(status, AVL_OUT_OF_RANGE);
 
     //Free memory

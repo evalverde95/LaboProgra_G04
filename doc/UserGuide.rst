@@ -106,7 +106,6 @@ La función de delete busca el número ingresado por el usuario y dependiendo de
 El prototipo para la función es el siguiente.
 
 .. code-block:: c++
-
     int avl_node_remove(
         float num,
         struct avl_node **new_root);
@@ -169,7 +168,6 @@ El prototipo para la función es:
 En el caso del elemento máximo, se debe inicializar un nodo vacío, y se pueden agregar valores con la función de Insert o Create, o incluso dejar el nodo vacío, para el cual se dará un mensaje de error. Luego, se utiliza la función *avl_max_get* para obtener el elemento máximo.
 
 .. code-block:: c++
-
     int status=AVL_SUCCESS; // Initialize status
     int list_size=3; // Define list size
     float list[3]={1,2,3}; // Create list
@@ -197,7 +195,6 @@ El prototipo para la función es:
 En el caso del elemento mínimo, se debe inicializar un nodo vacío, y se pueden agregar valores con la función de Insert o Create, o incluso dejar el nodo vacío, para el cual se dará un mensaje de error. Luego, se utiliza la función *avl_min_get* para obtener el elemento mínimo.
 
 .. code-block:: c++
-
     int status=AVL_SUCCESS; // Initialize status
     int list_size=3; // Define list size
     float list[3]={1,2,3}; // Create list

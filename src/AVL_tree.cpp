@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <ctime>
 
-
 using namespace std;
 
 
@@ -271,7 +270,7 @@ int avl_node_remove(
 
     //Element to be delete found.
     else {
-        //Delete actions for a node with one child or none
+        //Delete actions for a node with one child or none.
         if ((*new_root)->rc_node == nullptr ||
             (*new_root)->lc_node == nullptr){
 
@@ -302,8 +301,8 @@ int avl_node_remove(
           delete temp;
         }
     }
-
-    //Tree with only one node
+    
+    //Tree with only one node.
     if (*new_root == nullptr){
       return AVL_SUCCESS;
     }
@@ -337,7 +336,7 @@ int avl_node_remove(
         status_2=left_rotation(new_root);
         return min3(status,status_1,status_2);
     }
-    //Return status
+    //Return status.
     return status;
 }
 
@@ -448,16 +447,21 @@ int avl_print_nodes(
 
 int avl_max_get(struct avl_node *in_root, struct avl_node **max_node){
 
+  // Analyzed node is empty, return out of range status
   if(in_root == nullptr){
     return AVL_OUT_OF_RANGE;
   }
 
+  // Node not empty, save in maximum node and call recursively to get max element
   if(in_root != nullptr){
     (*max_node) = in_root;
-    printf("Values: %f \n", (in_root)->value);
     avl_max_get(in_root->rc_node, (max_node));
   }
+
+  // Max_node is null -> Tree is null
   if((*max_node) == nullptr) return AVL_OUT_OF_RANGE;
+
+  // Max element gotten correctly
   return AVL_SUCCESS;
 
 
@@ -467,17 +471,21 @@ int avl_max_get(struct avl_node *in_root, struct avl_node **max_node){
 
 int avl_min_get(struct avl_node *in_root, struct avl_node **min_node){
 
+  // Analyzed node is empty, return out of range status
   if(in_root == nullptr){
     return AVL_OUT_OF_RANGE;
   }
 
+  // Node not empty, save in minimum node and call recursively to get min element
   if(in_root != nullptr){
     (*min_node) = in_root;
-    //printf("Values: %f \n", (in_root)->value);
-    avl_min_get(in_root->lc_node, (min_node));
+    avl_min_get(in_root->lc_node, (min_node));   
   }
 
+  // Min_node is null -> Tree is null
   if((*min_node) == nullptr) return AVL_OUT_OF_RANGE;
+
+  // Min element gotten correctly
   return AVL_SUCCESS;
 
 
