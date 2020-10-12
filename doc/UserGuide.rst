@@ -42,11 +42,10 @@ Dado que el proyecto utiliza compilación automática por medio de CMake para co
 La complejidad teórica para la inserción en un árbol auto-balanceable es de :math:`O(f(n))=log(n)`, para probar esto se realizaron inserciones en un árbol con distinta cantidad de inserciones previas (entre 100 y 100 000) y se tomó el tiempo de la última inserción, estas inserciones fueron de números aleatorios para poder obtener una muestra representativa. Los resultados de este experimento se muestran en la siguiente figura.
 
 
-    .. image:: Time_100.png
+    .. image:: ./Time_100.png
         :alt: Insertion complexity
         :align: center
-        :width: 600px
-        :height: 400px
+        
         
 
 
