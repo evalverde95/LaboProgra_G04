@@ -276,10 +276,9 @@ Para la eliminación de un número, el algorimto requiere que un árbol previame
 En síntesis se tienen los siguientes casos:
 
 * **Positiva:** Se prueba la eliminación de un nodo almacenado en un árbol válido, debe devolver AVL_SUCCESS.
-* **Negativa:** Se prueba la eliminación de un nodo no almancenado en el árbol, debe devolver AVL_OUT_OF_RANGE.
-* **Negativa:** Se prueba la eliminación de un nodo en un árbol vacío, debe devolver AVL_NOT_FOUND.a eliminación de un nodo almacenado en un árbol válido, debe devolver AVL_SUCCESS.
-* **Negativa:** Se prueba la eliminación de un nodo no almancenado en el árbol, debe devolver AVL_OUT_OF_RANGE.
 * **Negativa:** Se prueba la eliminación de un nodo en un árbol vacío, debe devolver AVL_NOT_FOUND.
+* **Negativa:** Se prueba la eliminación de un nodo no almancenado en el árbol mayor que cualquier valor, debe devolver AVL_OUT_OF_RANGE.
+* **Negativa:** Se prueba la eliminación de un nodo no almancenado en el árbol menor que cualquier valor, debe devolver AVL_OUT_OF_RANGE.
 
 4.4. Print
 ~~~~~~~~~~
@@ -315,5 +314,6 @@ Para la busqueda de un número, el algorimto requiere que un árbol previamente 
 En síntesis se tienen los siguientes casos:
 
 * **Positiva:** Se prueba la busqueda de un nodo almacenado en un árbol válido, debe devolver AVL_SUCCESS.
-* **Negativa:** Se prueba la busqueda de un nodo no almancenado en el árbol, debe devolver AVL_OUT_OF_RANGE.
+* **Negativa:** Se prueba la busqueda de un nodo no almancenado en el árbol mayor que todos los valores, debe devolver AVL_OUT_OF_RANGE.
+* **Negativa:** Se prueba la busqueda de un nodo no almancenado en el árbol menor que todos los valores, debe devolver AVL_OUT_OF_RANGE.
 * **Negativa:** Se prueba la busqueda de un nodo en un árbol vacío, debe devolver AVL_NOT_FOUND.
