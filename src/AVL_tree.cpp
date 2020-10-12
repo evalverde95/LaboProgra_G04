@@ -1,3 +1,4 @@
+#include <bits/stdc++.h> 
 #include "AVL_tree.hpp"
 #include <iostream>
 #include <cstdlib>
@@ -29,6 +30,18 @@ int min3(
     int temp_status = (status_1<status_2) ? status_1:status_2;
     return (status_3<temp_status) ? status_3:temp_status;
 }
+
+float median(float in_list[], int list_size){ 
+    // First we sort the array 
+    sort(in_list, in_list + list_size); 
+  
+    // Check case
+    if (list_size % 2 != 0){
+      return in_list[list_size / 2]; 
+    }
+  
+    return (in_list[(list_size - 1) / 2] + in_list[list_size / 2]) / 2.0; 
+} 
 
 
 int get_height(
@@ -343,8 +356,7 @@ int avl_node_remove(
 
 int avl_search(float num, struct avl_node **root, struct avl_node **found_node){
   int status = AVL_SUCCESS;
-  std::cout << "que es root? " <<*root << '\n';
-
+  
   //if nullptr then avl is empty or doesnt exist.
   if (*root == nullptr){
     return AVL_NOT_FOUND;
@@ -432,7 +444,7 @@ int avl_print(
 int avl_print_nodes(
   struct avl_node  *in_root){
 
-    // Pre order traversal printing.
+    // Pre order traversal printing, to include shape information.
     if (in_root!=nullptr){
         cout<<in_root->value<<" ";
         avl_print_nodes(in_root->lc_node);
@@ -454,7 +466,6 @@ int avl_max_get(struct avl_node *in_root, struct avl_node **max_node){
 
   if(in_root != nullptr){
     (*max_node) = in_root;
-    printf("Values: %f \n", (in_root)->value);
     avl_max_get(in_root->rc_node, (max_node));
   }
   if((*max_node) == nullptr) return AVL_OUT_OF_RANGE;
@@ -473,7 +484,6 @@ int avl_min_get(struct avl_node *in_root, struct avl_node **min_node){
 
   if(in_root != nullptr){
     (*min_node) = in_root;
-    //printf("Values: %f \n", (in_root)->value);
     avl_min_get(in_root->lc_node, (min_node));
   }
 

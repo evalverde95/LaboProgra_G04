@@ -8,7 +8,7 @@
 using namespace std;
 
 // Positive testing for creation with valid arguments, status should return AVL_SUCCESS.
-TEST(Create_test, positive) {
+TEST(Create_test,positive) {
     // Initialize status to success.
     int status = AVL_SUCCESS;
     // Define list size.
@@ -30,7 +30,7 @@ TEST(Create_test, positive) {
 }
 
 // Negative testing for creation with valid arguments, status should return AVL_INVALID_PARAM.
-TEST(Create_test, negative) {
+TEST(Create_test,negative) {
     // Initialize status to success.
     int status = AVL_SUCCESS;
     // Define list size.
@@ -39,7 +39,7 @@ TEST(Create_test, negative) {
     // Create list and initialize root to null.
     float *list=random_list(list_size);
     struct avl_node *root=nullptr;
-
+    
     // Call creation with invalid list size.
     status=avl_create(list,0,&root);
 
@@ -51,64 +51,89 @@ TEST(Create_test, negative) {
     delete list;
 }
 
-TEST(Time_complex, Positive){
+TEST(Time_complex,positive){
   int status = 0;
   float min_order = 100;
   float max_order = 100000;
   int test_quantity = 100;
+  int repetition_quantity = 100;
 
   srand (static_cast <unsigned> (time(nullptr)));
 
   // Create the test result file
-  std::ofstream resultados;
+  ofstream resultados;
   resultados.open ("time.csv");
   resultados << "These are the time complexity test results\n";
   resultados << "Test N.;Nth add;Time[ns]\n";
   resultados.close();
 
+  int Nth = 0;
+  int median_time=0;
+  float times[100];
+
+
   for (int index = 0; index < test_quantity; index++) {
     // Obtaining the strcture size
     int list_size = min_order + (int)(max_order*rand()/(RAND_MAX+min_order));
 
+    median_time=0;
+    
     // Creating the test structure
     float *list=random_list(list_size);
     struct avl_node *root=nullptr;
     status=avl_create(list,list_size,&root);
+    
+    for (int idx_2 = 0; idx_2 < repetition_quantity; idx_2++){
 
-    // Adding the N-th node and measuring execution time
-    float new_node_value =static_cast <float>(rand());
-    auto start = std::chrono::steady_clock::now();
-    avl_node_add(new_node_value, &root);
-    auto stop = std::chrono::steady_clock::now();
+      // Adding the N-th node and measuring execution time
+      float new_node_value =static_cast <float>(rand());
+      auto start = chrono::steady_clock::now();
+      avl_node_add(new_node_value, &root);
+      auto stop = chrono::steady_clock::now();
 
-    // Saving test results (N and time)
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
-    int Nth = list_size+1;
-
-    std::ofstream results;
-    results.open("time.csv", std::ios_base::app);
-    results << index << ";" << Nth << ";" << duration.count() << endl;
-    std::cout << "Time test: " << Nth << ", " << duration.count() <<  "\t...saved (" << index << " out of " << test_quantity << ")" << '\n';
-
+      // Saving test results (N and time)
+      auto duration = chrono::duration_cast<chrono::nanoseconds>(stop - start);
+      
+      times[idx_2]= static_cast<float>(duration.count());
+  
+    }
+    
     //Free memory
     free_tree_mem(root);
     delete list;
-    }
+      
+    Nth = list_size+1;
+
+    median_time = static_cast<int>(median(times,repetition_quantity));
+    ofstream results;
+    results.open("time.csv", ios_base::app);
+    results << index << ";" << Nth << ";" << median_time << endl;
+    cout << "Time test:\t" << Nth <<"\t"<< median_time <<"\t...saved (" << index << " out of " << test_quantity << ")" << '\n';
+  
+
+  }
+
+
     EXPECT_EQ(status, 0);
   }
 
 
 // Positive test for getting min value of element, status should be AVL_SUCCESS
-TEST(Min_test, positive) {
+TEST(Min_test,positive) {
     int status = AVL_SUCCESS;
     int list_size=40;
     float *list=random_list(list_size);
     struct avl_node *root=nullptr;
     struct avl_node *min_node;
 
+    // Print list of values
+    cout<<"List values: ";
+    for (int i = 0; i < list_size; i++){
+      cout<<list[i]<<" ";
+    }
+    cout<<endl;
 
     avl_create(list,list_size,&root);
-
 
 
     status = avl_min_get(root->rc_node, &min_node);
@@ -121,7 +146,7 @@ TEST(Min_test, positive) {
 }
 
 // Negative test for getting min value of element, status should be AVL_OUT_OF_RANGE
-TEST(Min_test, negative) {
+TEST(Min_test,negative) {
     int status = AVL_SUCCESS;
     int list_size=0;
     float *list=random_list(list_size);
@@ -140,17 +165,24 @@ TEST(Min_test, negative) {
 }
 
 // Positive test for getting max value of element, status should be AVL_SUCCESS
-TEST(Max_test, positive) {
+TEST(Max_test,positive) {
     int status = AVL_SUCCESS;
     int list_size=15;
     float *list=random_list(list_size);
     struct avl_node *root=nullptr;
     struct avl_node *max_node;
 
+    // Print list of values
+    cout<<"List values: ";
+    for (int i = 0; i < list_size; i++){
+      cout<<list[i]<<" ";
+    }
+    cout<<endl;
+
     avl_create(list,list_size,&root);
 
     status = avl_max_get(root, &max_node);
-    printf("MIN: %f \n", max_node->value);
+    printf("MAX: %f \n", max_node->value);
     EXPECT_EQ(status, AVL_SUCCESS);
 
     //Free memory
@@ -159,7 +191,7 @@ TEST(Max_test, positive) {
 }
 
 // Negative test for getting max value of empty tree, status should be AVL_OUT_OF_RANGE
-TEST(Max_test, negative) {
+TEST(Max_test,negative) {
     int status = AVL_SUCCESS;
     int list_size=0;
     float *list=random_list(list_size);
@@ -169,7 +201,7 @@ TEST(Max_test, negative) {
     avl_create(list,list_size,&root);
 
     status = avl_max_get(root, &max_node);
-    printf("MIN: %f \n", max_node->value);
+    printf("MAX: %f \n", max_node->value);
     EXPECT_EQ(status, AVL_OUT_OF_RANGE);
 
     //Free memory
@@ -178,7 +210,7 @@ TEST(Max_test, negative) {
 }
 
 // Test removing a node from a tree
-TEST(Node_remove_test, positive){
+TEST(Node_remove_test,positive){
   int status = 0;
 
   // Creating the tree
@@ -198,8 +230,8 @@ TEST(Node_remove_test, positive){
   delete list;
 }
 
-// Testing for a value grater than any in the tree
-TEST(Node_remove_test_grater, negative){
+// Testing for a value greater than any in the tree
+TEST(Node_remove_test_greater,negative){
   int status = 0;
 
   // Creating the tree from a random list
@@ -216,7 +248,7 @@ TEST(Node_remove_test_grater, negative){
   }
   inexistent_num += 1;
 
-  // Try removing the inexistent grater value
+  // Try removing the inexistent greater value
   status = avl_node_remove(inexistent_num, &root);
 
   // Status should be AVL_OUT_OF_RANGE
@@ -228,7 +260,7 @@ TEST(Node_remove_test_grater, negative){
 }
 
 // Test removing a value lesser than any in the tree
-TEST(Node_remove_test_lesser, negative){
+TEST(Node_remove_test_lesser,negative){
   int status = 0;
 
   // Creating the tree
@@ -252,7 +284,7 @@ TEST(Node_remove_test_lesser, negative){
 }
 
 // Testing removing a node from a empty tree
-TEST(Node_remove_test_invalid, negative){
+TEST(Node_remove_test_invalid,negative){
   int status = 0;
 
   // Creating an emty tree
@@ -270,7 +302,7 @@ TEST(Node_remove_test_invalid, negative){
 }
 
 // Testing search funtion
-TEST(Node_search, Positive){
+TEST(Node_search,positive){
   int status = 0;
 
   //Creating the tree
@@ -297,7 +329,7 @@ TEST(Node_search, Positive){
 }
 
 // Testing searching a inexisten greater number
-TEST(Node_search_grater, Negative){
+TEST(Node_search_greater,negative){
   int status = 0;
 
   // Creating the tree
@@ -329,7 +361,7 @@ TEST(Node_search_grater, Negative){
 }
 
 // Test searching for a value lesser than any in the tree
-TEST(Node_search_lesser, Negative){
+TEST(Node_search_lesser,negative){
   int status = 0;
 
   // Creating tree
@@ -356,7 +388,7 @@ TEST(Node_search_lesser, Negative){
 }
 
 // Testing searching an empty tree
-TEST(Node_search_invalid, Negative){
+TEST(Node_search_invalid,negative){
   int status = 0;
 
   // Creating emty tree
@@ -402,8 +434,8 @@ TEST(Print,positive) {
 
     // Redirect stdout to a buffer before calling avl_print
     // to capture the printed output.
-    std::stringstream buffer;
-    std::streambuf * old = std::cout.rdbuf(buffer.rdbuf());
+    stringstream buffer;
+    streambuf * old = cout.rdbuf(buffer.rdbuf());
 
     // Call avl_print to capture the printing in the buffer.
     avl_print(root);
@@ -416,7 +448,7 @@ TEST(Print,positive) {
     EXPECT_EQ(buffer2,correct_output);
 
     // Reset the stdout to console.
-    std::cout.rdbuf( old );
+    cout.rdbuf( old );
 
     // Free memory.
     free_tree_mem(root);

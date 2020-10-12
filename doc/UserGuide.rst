@@ -39,10 +39,15 @@ Dado que el proyecto utiliza compilación automática por medio de CMake para co
 
 2. Complejidad del algoritmo de inserción
 -----------------------------------------
-La complejidad teórica para la inserción en un árbol auto-balanceable es de :math:`O(f(n))=\log(n)`, para probar esto se realizaron inserciones en un árbol con distinta cantidad de inserciones previas (entre 100 y 100 000) y se tomó el tiempo de la última inserción, estas inserciones fueron de números aleatorios para poder obtener una muestra representativa. Los resultados de este experimento se muestran en la siguiente figura XX.
+La complejidad teórica para la inserción en un árbol auto-balanceable es de :math:`O(f(n))=log(n)`, para probar esto se realizaron inserciones en un árbol con distinta cantidad de inserciones previas (entre 100 y 100 000) y se tomó el tiempo de la última inserción, estas inserciones fueron de números aleatorios para poder obtener una muestra representativa. Los resultados de este experimento se muestran en la siguiente figura.
 
 
-    .. image:: ./Time_100.jpg
+    .. image:: Time_100.png
+        :alt: Insertion complexity
+        :align: center
+        :width: 600px
+        :height: 400px
+        
 
 
 3. Funciones
@@ -155,7 +160,7 @@ En este caso hay otra función que llama a esta llamada *avl_print* que es la qu
     free_tree_mem(root); //Free memory assigned to nodes
 
 3.5. Maximum Element
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 Para encontrar el elemento máximo o nodo con mayor valor en un bst, se debe recorrer completamente por todos los hijos derechos que existan, hasta llegar al último, el cual será el elemento máximo.
 
 El prototipo para la función es:
@@ -183,7 +188,7 @@ En el caso del elemento máximo, se debe inicializar un nodo vacío, y se pueden
     free_tree_mem(root); //Free memory assigned to nodes
 
 3.6. Minimum Element
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 Para encontrar el elemento mínimo o nodo con menor valor en un bst, se debe recorrer completamente por todos los hijos izquierdos que existan, hasta llegar al último, el cual será el elemento mínimo.
 
 El prototipo para la función es:
@@ -271,12 +276,6 @@ Para la eliminación de un número, el algorimto requiere que un árbol previame
 
 En síntesis se tienen los siguientes casos:
 
-* **Positiva:** Se prueba l.3. Delete
-~~~~~~~~~~~
-Para la eliminación de un número, el algorimto requiere que un árbol previamente creado y tener el número almacenado en él.
-
-En síntesis se tienen los siguientes casos:
-
 * **Positiva:** Se prueba la eliminación de un nodo almacenado en un árbol válido, debe devolver AVL_SUCCESS.
 * **Negativa:** Se prueba la eliminación de un nodo no almancenado en el árbol, debe devolver AVL_OUT_OF_RANGE.
 * **Negativa:** Se prueba la eliminación de un nodo en un árbol vacío, debe devolver AVL_NOT_FOUND.a eliminación de un nodo almacenado en un árbol válido, debe devolver AVL_SUCCESS.
@@ -293,7 +292,7 @@ De esta manera el test tiene un único caso:
 * **Positiva:** Se prueba que la impresión redirigida al buffer sea la misma que la esperada para una lista ya conocida.
 
 4.5. Minimum Element
-~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 Para la obtención del elemento mínimo del árbol, se cuenta con una prueba positiva, para cuando se haya un valor, y una prueba negativa cuando el árbol analizado está vacío.
 
 En síntesis se tienen los siguientes casos:
@@ -302,7 +301,7 @@ En síntesis se tienen los siguientes casos:
 * **Negativa:** Se prueba la obtención de un nodo mínimo en un árbol vacío, debe devolver AVL_OUT_OF_RANGE.
 
 4.6. Minimum Element
-~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 Para la obtención del elemento máximo del árbol, se cuenta con una prueba positiva, para cuando se haya un valor, y una prueba negativa cuando el árbol analizado está vacío.
 
 En síntesis se tienen los siguientes casos:

@@ -77,6 +77,20 @@ int min3(
   int status_3);
 
 /**
+ * median
+ * Toma una lista de números y encuentra su mediana.
+ * Retorna el valor de la mediana.
+ *
+ * @param [in]  in_list   Input list.
+ * @param [in]  list_size List_size.
+ *
+ * @returns median        La mediana de la lista.
+ */
+float median(
+  float in_list[],
+  int list_size);
+
+/**
  * get_height
  * Calcula la altura de un nodo.
  * Retorna la altura del nodo.
