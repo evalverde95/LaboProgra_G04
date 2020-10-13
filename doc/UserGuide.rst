@@ -46,7 +46,22 @@ La complejidad teórica para la inserción en un árbol auto-balanceable es de :
         :alt: Insertion complexity
         :align: center
         
-        
+Para cada uno de los tamaños aleatorios se hacen 100 inserciones para obtener el valor de la mediana de los tiempos de una inserción. 
+En este caso se elige la mediana como medida de tendencia central para amortiguar el efecto que tienen los valores atípicos sobre 
+otras medidas como lo es el promedio (la mediana es insesgada).
+
+Los resultados mostrados en la figura anterior son los resultados para una prueba específica, 
+lo que quiere decir que los puntos graficados van a cambiar y el ajuste puede mejorar o empeorar, 
+dependiendo de los resultados de cada prueba en particular. Lo que sí es relevante destacar es que, 
+aún cuando el valor del ajuste no es bueno (R^2=48%, debido a la dispersión de los datos con respecto a la línea de tendencia), 
+se puede observar que la tendencia sí se sigue. Cabe destacar que en esta tendencia lo relevante es que aún cuando la estructura
+tenga muchos elementos la inserción (y demás funciones) requieran de un tiempo bajo para realizarse. Se puede observar el
+amortiguamiento logarítmico que mantiene el tiempo de inserción razonablemente similar entre variedad de tamaños (inclusive los
+más cercanos a 100 000).
+
+Esta prueba se encuentra contemplada dentro de las pruebas con GTest y genera un archivo csv (dentro del directorio en que 
+se crea el proyecto) que se puede utilizar para generar gráficas como la anterior o realizar algún procesamiento posterior, 
+es por esto que se prefiere este formato para un posible posterior análisis o procesamiento.
 
 
 3. Funciones
